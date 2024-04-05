@@ -1,4 +1,3 @@
-import streamlit as st 
 # Ứng dụng 1. Nhập CustomerID để xác định segment của khách hàng
 def customer_segmentKmean(rfm_data, scaler, model):
     rfm_scaled = scaler.transform(rfm_data)
