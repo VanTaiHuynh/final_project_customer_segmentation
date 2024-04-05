@@ -108,7 +108,9 @@ elif choice == 'Tìm kiếm khách hàng':
             if customer_id_select:
                 customer_id_select = [int(i) for i in customer_id_select]
                 df_temp = dataRFM[dataRFM.index.isin(customer_id_select)]
-                st.write(customer_segmentKmean(df_temp, scaler, model))
+                df_result = customer_segmentKmean(df_temp, scaler, model)
+                st.write(df_result)
+                st.download_button(label='Download', data=df_result.to_csv(), file_name='customerSegnmentationwRFM.csv', mime='text/csv')
             else: 
                 st.write('Chưa chọn CustomerID')
     else:
@@ -124,7 +126,9 @@ elif choice == 'Tìm kiếm khách hàng':
                 customerIDs = file.read().split('\n')
                 customerIDs = [int(i) for i in customerIDs if i]
                 df_temp = dataRFM[dataRFM.index.isin(customerIDs)]
-                st.write(customer_segmentKmean(df_temp, scaler, model))
+                df_result = customer_segmentKmean(df_temp, scaler, model)
+                st.write(df_result)
+                st.download_button(label='Download', data=df_result.to_csv(), file_name='customerSegnmentationwRFM.csv', mime='text/csv')
             except Exception as e:
                 st.write("Xảy ra lỗi trong quá trình đọc file - hoặc file không đúng định dạng")
 elif choice == 'New Predict by RFM':
@@ -161,6 +165,7 @@ elif choice == 'New Predict by RFM':
             if st.session_state['data'].shape[0] > 0:
                 cluster = predict_new_RFM(st.session_state['data'].copy(), scaler, model)
                 st.write(cluster)
+                st.download_button(label='Download', data=cluster.to_csv(), file_name='predictNewCustomerRFM.csv', mime='text/csv')
             else:
                 st.write("Chưa có dữ liệu")
     else: 
@@ -180,6 +185,7 @@ elif choice == 'New Predict by RFM':
                     df = pd.read_csv(file, index_col=0)
                     cluster = predict_new_RFM(df, scaler, model)
                     st.write(cluster)
+                    st.download_button(label='Download', data=cluster.to_csv(), file_name='predictNewCustomerRFM.csv', mime='text/csv')
                 except Exception as e:
                     st.write(e)
 
